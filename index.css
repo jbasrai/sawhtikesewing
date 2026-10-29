@@ -1,0 +1,46 @@
+html, body {
+	margin: 0;
+	color: #F8E87A;
+	background-color: black;
+	font-family: "Montserrat", sans-serif;
+}
+
+.header {
+	height: 160px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 3rem;
+	gap: 20px;
+}
+
+.logo {
+	height: 100%;
+	aspect-ratio: 1;
+	background-image: url("./logo.jpg");
+	background-size: cover;
+}
+
+.content {
+	background-color: black;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+
+.pic {
+	flex: 0 1 calc((100% - 32px) / 3);
+	width: calc((100% - 32px) / 3); 
+    height: 60%;       /* Fixed height (or use aspect-ratio: 1/1 for squares) */
+}
+
+.footer {
+	height: 200px;
+	background-color: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	color: #F8E87A;
+	font-size: 2rem;
+}

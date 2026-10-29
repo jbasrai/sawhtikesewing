@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="./index.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="header">
+			<div class="logo"></div>
+			<div>Saw Htike Sewing</div>
+		</div>
+		
+		<div class="content">
+			<img src="./pics/1.jpg" class="pic" />
+			<img src="./pics/2.jpg" class="pic" />
+			<img src="./pics/3.jpg" class="pic" />
+		</div>
+
+		<div class="footer">
+			<div>email@email.com</div>
+			<div>(111) 111-1111</div>
+			<div>Address</div>
+		</div>
+	</body>
+
+
+	<script>
+  // Auto-Reload for HTML and all linked stylesheets (No dependencies)
+  (() => {
+    // Gather the HTML page and all linked stylesheets
+    const urls = [window.location.href];
+    document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+      if (link.href) urls.push(link.href);
+    });
+
+    const timestamps = {};
+
+    setInterval(async () => {
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, { method: 'HEAD' });
+          const modified = res.headers.get('last-modified');
+
+          if (timestamps[url] && timestamps[url] !== modified) {
+            window.location.reload();
+            return;
+          }
+          timestamps[url] = modified;
+        } catch (err) {
+          // Suppress network errors during reload cycles
+        }
+      }
+    }, 1000); // Checks every 1 second
+  })();
+</script>
+</html>
