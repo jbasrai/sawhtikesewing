@@ -9,13 +9,39 @@
 	<body>
 		<div class="header">
 			<div class="logo"></div>
-			<div>Saw Htike Sewing</div>
+			<div>Saw Htike Sewing</div> </div>
+		<div class="cover">
+			<img src="./pics/cover.jpg" />
 		</div>
-		
 		<div class="content">
-			<img src="./pics/1.jpg" class="pic" />
-			<img src="./pics/2.jpg" class="pic" />
-			<img src="./pics/3.jpg" class="pic" />
+			<div class="category">
+				<div class="category-name">New Designs and Constructions</div>
+				<div class="items">
+					<div class="item">
+						<img src="./pics/1.jpg" >
+					</div>
+					<div class="item">
+						<img src="./pics/2.jpg" >
+					</div>
+					<div class="item">
+						<img src="./pics/3.jpg" >
+					</div>
+				</div>
+			</div>
+			<div class="category">
+				<div class="category-name">Customized Sport Clothing</div>
+				<div class="items">
+					<div class="item">
+						<img src="./pics/4.jpg" >
+					</div>
+					<div class="item">
+						<img src="./pics/5.jpg" >
+					</div>
+					<div class="item">
+						<img src="./pics/6.jpg" >
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="footer">
@@ -25,29 +51,50 @@
 		</div>
 	</body>
 
-
 	<script>
-  // Auto-Reload for HTML and all linked stylesheets (No dependencies)
+  // Robust Auto-Reload for HTML and local stylesheets only
   (() => {
-    // Gather the HTML page and all linked stylesheets
-    const urls = [window.location.href];
-    document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-      if (link.href) urls.push(link.href);
-    });
+    const getUrls = () => {
+      const urls = [window.location.href];
+      document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href) {
+          // Explicitly ignore Google Fonts or any external CDNs by keyword
+          if (href.includes('googleapis.com') || href.includes('cdnjs.cloudflare.com')) {
+            return;
+          }
+
+          try {
+            const urlObj = new URL(link.href, window.location.origin);
+            // Only allow same-origin files
+            if (urlObj.origin === window.location.origin) {
+              urls.push(urlObj.href.split('?')[0]);
+            }
+          } catch (e) {
+            // Skip invalid URLs
+          }
+        }
+      });
+      return urls;
+    };
 
     const timestamps = {};
 
     setInterval(async () => {
-      for (const url of urls) {
+      const urls = getUrls();
+
+      for (const baseUrl of urls) {
         try {
-          const res = await fetch(url, { method: 'HEAD' });
+          const cacheBustedUrl = `${baseUrl}?t=${Date.now()}`;
+          const res = await fetch(cacheBustedUrl, { method: 'HEAD' });
           const modified = res.headers.get('last-modified');
 
-          if (timestamps[url] && timestamps[url] !== modified) {
+          if (timestamps[baseUrl] && timestamps[baseUrl] !== modified) {
             window.location.reload();
             return;
           }
-          timestamps[url] = modified;
+          timestamps[baseUrl] = modified;
+
         } catch (err) {
           // Suppress network errors during reload cycles
         }
